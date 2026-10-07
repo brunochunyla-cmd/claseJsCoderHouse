@@ -40,7 +40,7 @@ console.log("===================================");
 console.log("--------opcion 1: zapatillas-------");
 console.log("--------opcion 2: remeras----------");
 console.log("--------opcion 3: pelotas----------");
-console.log("--------opcion 4: cupon----------");
+console.log("--------opcion 4: cupon------------");
 console.log("--------opcion 0: finalizar compra-");
 
 
@@ -105,6 +105,7 @@ while (seguirComprando) {
             // esto lo saque del ejemplo que se vio en clase me parecio la mejor forma de cerrar el bucle
             let finalizar = prompt("desea finalizar la compra? (si/no)");
             if (finalizar == "si") {
+                console.log("Obtuvo un descuento de: $" + parseInt(totalCompra * 0.1));
                 console.log("el total de su compra es: $" + totalCompra);
                 console.log("Gracias por elegirnos! Hasta luego!");
                 seguirComprando = false
