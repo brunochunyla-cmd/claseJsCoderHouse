@@ -22,12 +22,16 @@ const subTotal = (cantidad, precio) => {
     return cantidad * precio;
 }
 
-const restaStock = (stock, cantidad) => {
+function restaStock(stock, cantidad) {
     return stock - cantidad;
 }
 
-const sumaCompra = (total, subtotal) => {
+const sumaCompra = function (total, subtotal) {
     return total + subtotal;
+}
+
+const aplicarDescuento = (total, descuento) => {
+    return total - (total * descuento);
 }
 
 console.log("===================================");
@@ -36,6 +40,7 @@ console.log("===================================");
 console.log("--------opcion 1: zapatillas-------");
 console.log("--------opcion 2: remeras----------");
 console.log("--------opcion 3: pelotas----------");
+console.log("--------opcion 4: cupon----------");
 console.log("--------opcion 0: finalizar compra-");
 
 
@@ -52,9 +57,9 @@ while (seguirComprando) {
                 let totalZapatillas = subTotal(cantidadZapatillas, precioZapatillas);
                 //          concateno el mensaje     con la cantidad,           el nombre    y         el valor total de los productos
                 console.log("El total a pagar por " + cantidadZapatillas + " " + zapatillas + " es: $" + totalZapatillas);
-                // esto es una abreviacion que vi para stockZapatillas = stockZapatillas - cantidadZapatillas
+                // modifico el stock de zapatillas con la funcuion restaStock que recibe la cantidad de stock y la resta por la cantidad de productos solicitados
                 stockZapatillas = restaStock(stockZapatillas, cantidadZapatillas);
-                // la misma abreviacion
+                // tambien se modifico el total de la compra con la funcion de sumaCompra que recibe el total de la compra y los suma por el subtotal de los producto pedidos
                 totalCompra = sumaCompra(totalCompra, totalZapatillas);
             }
             else {
@@ -87,6 +92,14 @@ while (seguirComprando) {
                 console.log("No hay stock suficiente de " + pelotas + ". Stock disponible: " + stockPelotas);
             }
             break;
+        // se agrego un case 4 para no dejar el codigo casi igual al trabajo enviado para la clase 2 
+        case "4":
+            let cupon = prompt("ingrese cupon de descuento: ");
+            if (cupon == "coder") {
+                totalCompra = aplicarDescuento(totalCompra, 0.1);
+                console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.")
+            }
+
         //  en el case 0 consulto al usuario si quiere finalizar la compra asi termina el bucle de while 
         case "0":
             // esto lo saque del ejemplo que se vio en clase me parecio la mejor forma de cerrar el bucle
@@ -98,6 +111,7 @@ while (seguirComprando) {
             }
             // no estaba seguro si era el relevante el break en esta parte pero lo puse por las dudas
             break;
+        // Agregue un default tal y como me marcaron en la devolucion de la clase 2, para que el codigo quede como corresponde.
         default:
             console.log("opcion no valida, por favor ingrese una opción del menú >:(");
     }
