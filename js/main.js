@@ -18,8 +18,20 @@ let totalCompra = 0;
 
 let seguirComprando = true;
 
+const subTotal = (cantidad, precio) => {
+    return cantidad * precio;
+}
+
+const restaStock = (stock, cantidad) => {
+    return stock - cantidad;
+}
+
+const sumaCompra = (total, subtotal) => {
+    return total + subtotal;
+}
+
 console.log("===================================");
-console.log("Bienvenido a la tienda de deportes!");
+console.log("=====Bienvenido a CoderSport!======");
 console.log("===================================");
 console.log("--------opcion 1: zapatillas-------");
 console.log("--------opcion 2: remeras----------");
@@ -36,14 +48,14 @@ while (seguirComprando) {
             let cantidadZapatillas = parseInt(prompt("ingrese la cantidad de zapatillas que desea comprar: "));
             // el if funciona si la cantidad de stock es mayor a la cantidad de productos que solicito
             if (cantidadZapatillas <= stockZapatillas) {
-                // para obtener el valor total de los productos multiplico la cantidad solicitada con el precio del producto
-                let totalZapatillas = cantidadZapatillas * precioZapatillas;
+                // se modifico la forma de calcular el subtotal de los productos, ahora se hace con una funcion flecha que recibe precio y cantidad y retorna el valor totall
+                let totalZapatillas = subTotal(cantidadZapatillas, precioZapatillas);
                 //          concateno el mensaje     con la cantidad,           el nombre    y         el valor total de los productos
                 console.log("El total a pagar por " + cantidadZapatillas + " " + zapatillas + " es: $" + totalZapatillas);
                 // esto es una abreviacion que vi para stockZapatillas = stockZapatillas - cantidadZapatillas
-                stockZapatillas -= cantidadZapatillas;
+                stockZapatillas = restaStock(stockZapatillas, cantidadZapatillas);
                 // la misma abreviacion
-                totalCompra += totalZapatillas;
+                totalCompra = sumaCompra(totalCompra, totalZapatillas);
             }
             else {
                 // este es el mensaje por si se solicitan mas producto de los que hay en stock 
@@ -54,10 +66,10 @@ while (seguirComprando) {
         case "2":
             let cantidadRemeras = parseInt(prompt("ingrese la cantidad de remeras que desea comprar:"));
             if (cantidadRemeras <= stockRemeras) {
-                let totalRemeras = cantidadRemeras * precioRemeras;
+                let totalRemeras = subTotal(cantidadRemeras, precioRemeras);
                 console.log("El total a pagar por " + cantidadRemeras + " " + remeras + " es: $" + totalRemeras);
-                stockRemeras -= cantidadRemeras;
-                totalCompra += totalRemeras;
+                stockRemeras = restaStock(stockRemeras, cantidadRemeras);
+                totalCompra = sumaCompra(totalCompra, totalRemeras);
             }
             else {
                 console.log("No hay stock suficiente de " + remeras + ". Stock disponible: " + stockRemeras);
@@ -66,10 +78,10 @@ while (seguirComprando) {
         case "3":
             let cantidadPelotas = parseInt(prompt("ingrese la cantidad de pelotas que desea comprar: "));
             if (cantidadPelotas <= stockPelotas) {
-                let totalPelotas = cantidadPelotas * precioPelotas;
+                let totalPelotas = subTotal(cantidadPelotas, precioPelotas);
                 console.log("El total a pagar por " + cantidadPelotas + " " + pelotas + " es: $" + totalPelotas);
-                stockPelotas -= cantidadPelotas;
-                totalCompra += totalPelotas;
+                stockPelotas = restaStock(stockPelotas, cantidadPelotas);
+                totalCompra = sumaCompra(totalCompra, totalPelotas);
             }
             else {
                 console.log("No hay stock suficiente de " + pelotas + ". Stock disponible: " + stockPelotas);
@@ -86,6 +98,10 @@ while (seguirComprando) {
             }
             // no estaba seguro si era el relevante el break en esta parte pero lo puse por las dudas
             break;
+        default:
+            console.log("opcion no valida, por favor ingrese una opción del menú >:(");
     }
 
 }
+
+
