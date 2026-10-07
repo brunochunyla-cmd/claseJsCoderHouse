@@ -13,10 +13,13 @@ let stockPelotas = 15;
 const precioPelotas = 50;
 // asigne producto sin valor ya que se lo asigna el usuario con el prompt
 let producto;
+let totalAnterior = 0;
 // puse el valor de 0 en la variable ya se hace la suma total de los productos al finalizar 
 let totalCompra = 0;
 
 let seguirComprando = true;
+
+let descuento = 0;
 
 const subTotal = (cantidad, precio) => {
     return cantidad * precio;
@@ -96,8 +99,10 @@ while (seguirComprando) {
         case "4":
             let cupon = prompt("ingrese cupon de descuento: ");
             if (cupon == "coder") {
-                totalCompra = aplicarDescuento(totalCompra, 0.1);
-                console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.")
+                totalAnterior = totalCompra;
+                descuento = 0.1;
+                totalCompra = aplicarDescuento(totalCompra, descuento);
+                console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.");
             }
             break;
 
@@ -107,7 +112,9 @@ while (seguirComprando) {
             let finalizar = prompt("desea finalizar la compra? (si/no)");
             if (finalizar == "si") {
                 //                                        agregue el parseInt para que el valor del descuento no tenga decimales ya que es un valor monetario
-                console.log("Obtuvo un descuento de: $" + parseInt(totalCompra * 0.1));
+                if (descuento > 0) {
+                    console.log("Obtuvo un descuento de: $" + parseInt(totalAnterior - totalCompra));
+                }
                 console.log("el total de su compra es: $" + totalCompra);
                 console.log("Gracias por elegirnos! Hasta luego!");
                 seguirComprando = false
