@@ -99,12 +99,14 @@ while (seguirComprando) {
                 totalCompra = aplicarDescuento(totalCompra, 0.1);
                 console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.")
             }
+            break;
 
         //  en el case 0 consulto al usuario si quiere finalizar la compra asi termina el bucle de while 
         case "0":
             // esto lo saque del ejemplo que se vio en clase me parecio la mejor forma de cerrar el bucle
             let finalizar = prompt("desea finalizar la compra? (si/no)");
             if (finalizar == "si") {
+                //                                        agregue el parseInt para que el valor del descuento no tenga decimales ya que es un valor monetario
                 console.log("Obtuvo un descuento de: $" + parseInt(totalCompra * 0.1));
                 console.log("el total de su compra es: $" + totalCompra);
                 console.log("Gracias por elegirnos! Hasta luego!");
