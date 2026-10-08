@@ -108,7 +108,6 @@ while (seguirComprando) {
 
         //  en el case 0 consulto al usuario si quiere finalizar la compra asi termina el bucle de while 
         case "0":
-            // esto lo saque del ejemplo que se vio en clase me parecio la mejor forma de cerrar el bucle
             let finalizar = prompt("desea finalizar la compra? (si/no)");
             if (finalizar == "si") {
                 //                                        agregue el parseInt para que el valor del descuento no tenga decimales ya que es un valor monetario
@@ -119,7 +118,6 @@ while (seguirComprando) {
                 console.log("Gracias por elegirnos! Hasta luego!");
                 seguirComprando = false
             }
-            // no estaba seguro si era el relevante el break en esta parte pero lo puse por las dudas
             break;
         // Agregue un default tal y como me marcaron en la devolucion de la clase 2, para que el codigo quede como corresponde.
         default:
