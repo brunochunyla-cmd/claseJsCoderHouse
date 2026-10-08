@@ -21,9 +21,8 @@ let seguirComprando = true;
 
 let descuento = 0;
 
-const subTotal = (cantidad, precio) => {
-    return cantidad * precio;
-}
+const subTotal = (cantidad, precio) => cantidad * precio;
+
 
 function restaStock(stock, cantidad) {
     return stock - cantidad;
@@ -33,9 +32,8 @@ const sumaCompra = function (total, subtotal) {
     return total + subtotal;
 }
 
-const aplicarDescuento = (total, descuento) => {
-    return total - (total * descuento);
-}
+const aplicarDescuento = (total, descuento) => total - (total * descuento);
+
 
 console.log("===================================");
 console.log("=====Bienvenido a CoderSport!======");
