@@ -77,20 +77,18 @@ function caseCupon() {
     else {
         console.log("cupon invalido!!!")
     }
+}
+function buscarProducto() {
+    let productoBuscado = prompt("Ingrese el nombre del producto que desea buscar:");
 
-    function buscarProducto() {
-        let productoBuscado = prompt("Ingrese el nombre del producto que desea buscar:");
+    if (productos.includes(productoBuscado)) {
+        let posicion = productos.indexOf(productoBuscado);
 
-        if (productos.includes(productoBuscado)) {
-            let posicion = productos.indexOf(productoBuscado);
-
-            console.log("El producto " + productoBuscado + " se encuentra disponible.");
-            console.log("Su posición en el array es: " + posicion);
-        } else {
-            console.log("El producto " + productoBuscado + " no se encuentra en el catálogo.");
-        }
+        console.log("El producto " + productoBuscado + " se encuentra disponible.");
+        console.log("Su posición en el array es: " + posicion);
+    } else {
+        console.log("El producto " + productoBuscado + " no se encuentra en el catálogo.");
     }
-
 }
 function caseFinalizar() {
     let finalizar = prompt("desea finalizar la compra? (si/no)");
@@ -103,8 +101,6 @@ function caseFinalizar() {
         seguirComprando = false
     }
 }
-
-
 console.log("===================================");
 console.log("=====Bienvenido a CoderSport!======");
 console.log("===================================");
@@ -119,7 +115,7 @@ console.log("--------opcion 8: Checklist--------");
 console.log("--------opcion 9: Buscar producto--");
 console.log("--------opcion 0: Finalizar compra-");
 
-
+let producto;
 while (seguirComprando) {
     producto = prompt("Ingrese una opcion del menu: ");
     switch (producto) {
