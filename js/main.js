@@ -1,93 +1,53 @@
-/* asigne variables para el stock de los productos ya que cambian de valor, tanto el nombre como el precio no se modifica
- asi que los puse en una constante  */
-const zapatillas = "zapatillas";
+const productos = ["zapatillas", "remeras", "pelotas", "shorts", "medias"];
 let stockZapatillas = 10;
 const precioZapatillas = 150;
 
-const remeras = "remeras";
 let stockRemeras = 5;
 const precioRemeras = 80;
 
-const pelotas = "pelotas";
 let stockPelotas = 15;
 const precioPelotas = 50;
-// asigne producto sin valor ya que se lo asigna el usuario con el prompt
-let producto;
+
+let stockShorts = 20;
+const precioShorts = 45;
+
+let stockMedias = 25;
+const precioMedias = 25;
+
+const cupones = ["coder", "pipzas", "caballedo", "pefeto"];
+
 let totalAnterior = 0;
-// puse el valor de 0 en la variable ya se hace la suma total de los productos al finalizar 
+
 let totalCompra = 0;
 
 let seguirComprando = true;
 
 let descuento = 0;
 
-function caseZapatillas() {
-    // solicito al usuario la cantidad que desea comprar
-    let cantidadZapatillas = parseInt(prompt("ingrese la cantidad de zapatillas que desea comprar: "));
-    // el if funciona si la cantidad de stock es mayor a la cantidad de productos que solicito
-    if (cantidadZapatillas <= stockZapatillas) {
-        // se modifico la forma de calcular el subtotal de los productos, ahora se hace con una funcion flecha que recibe precio y cantidad y retorna el valor totall
-        let totalZapatillas = subTotal(cantidadZapatillas, precioZapatillas);
-        //          concateno el mensaje     con la cantidad,           el nombre    y         el valor total de los productos
-        console.log("El total a pagar por " + cantidadZapatillas + " " + zapatillas + " es: $" + totalZapatillas);
-        // modifico el stock de zapatillas con la funcuion restaStock que recibe la cantidad de stock y la resta por la cantidad de productos solicitados
-        stockZapatillas = restaStock(stockZapatillas, cantidadZapatillas);
-        // tambien se modifico el total de la compra con la funcion de sumaCompra que recibe el total de la compra y los suma por el subtotal de los producto pedidos
-        totalCompra = sumaCompra(totalCompra, totalZapatillas);
+productos.splice(0, 1, "botines");
+// no sabia como agregar estos metodos para que queden bien dentro del simulador, lo que hice fue agregarlo, avisar que se agreg...
+productos.push("cordones");
+console.log("Nuevo producto agregado: " + productos[productos.length - 1]);
+// ... y luego eliminarlo y avisar que se elemino, para que quede claro que se pueden agregar y eliminar productos del catalogo
+let productoEliminado = productos.pop();
+console.log("Producto eliminado del catálogo: " + productoEliminado);
+/* se agrego la funcion de procesoCompra que recibe el nombre del producto, precio y stock, realiza el mismo proceso que las funciones caseZapatillas, caseRemeras y casePElotas,
+pero ahorrandome muchas lineas de codigo, ya que ahora se llama unicamente a la funcion agregandole los parametros correspondientes y retornando el stock modificado en cada caso */
+function procesoCompra(producto, precio, stock) {
+    let cantidadProductos = parseInt(prompt("ingrese la cantidad de " + producto + " que desea comprar:"));
+    if (cantidadProductos <= stock) {
+        let totalProductos = subTotal(cantidadProductos, precio);
+        console.log("El total a pagar por " + cantidadProductos + " " + producto + " es: $" + totalProductos);
+        stock = restaStock(stock, cantidadProductos);
+        totalCompra = sumaCompra(totalCompra, totalProductos);
+        return stock;
     }
+    else {
+        console.log("No hay stock suficiente de " + producto + ". Stock disponible: " + stock);
+        return stock;
 
-    else {
-        // este es el mensaje por si se solicitan mas producto de los que hay en stock 
-        console.log("No hay stock suficiente de " + zapatillas + ". Stock disponible: " + stockZapatillas);
     }
 }
-function caseRemeras() {
-    let cantidadRemeras = parseInt(prompt("ingrese la cantidad de remeras que desea comprar:"));
-    if (cantidadRemeras <= stockRemeras) {
-        let totalRemeras = subTotal(cantidadRemeras, precioRemeras);
-        console.log("El total a pagar por " + cantidadRemeras + " " + remeras + " es: $" + totalRemeras);
-        stockRemeras = restaStock(stockRemeras, cantidadRemeras);
-        totalCompra = sumaCompra(totalCompra, totalRemeras);
-    }
-    else {
-        console.log("No hay stock suficiente de " + remeras + ". Stock disponible: " + stockRemeras);
-    }
-}
-function casePelotas() {
-    let cantidadPelotas = parseInt(prompt("ingrese la cantidad de pelotas que desea comprar: "));
-    if (cantidadPelotas <= stockPelotas) {
-        let totalPelotas = subTotal(cantidadPelotas, precioPelotas);
-        console.log("El total a pagar por " + cantidadPelotas + " " + pelotas + " es: $" + totalPelotas);
-        stockPelotas = restaStock(stockPelotas, cantidadPelotas);
-        totalCompra = sumaCompra(totalCompra, totalPelotas);
-    }
-    else {
-        console.log("No hay stock suficiente de " + pelotas + ". Stock disponible: " + stockPelotas);
-    }
-}
-// se agrego un case 4 para no dejar el codigo casi igual al trabajo enviado para la clase 2 
-function caseCupon() {
-    let cupon = prompt("ingrese cupon de descuento: ");
-    if (cupon == "coder") {
-        totalAnterior = totalCompra;
-        descuento = 0.1;
-        totalCompra = aplicarDescuento(totalCompra, descuento);
-        console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.");
-    }
-}
-function caseFinalizar() {
-    let finalizar = prompt("desea finalizar la compra? (si/no)");
-    if (finalizar == "si") {
-        //                                        agregue el parseInt para que el valor del descuento no tenga decimales ya que es un valor monetario
-        if (descuento > 0) {
-            console.log("Obtuvo un descuento de: $" + parseInt(totalAnterior - totalCompra));
-        }
-        console.log("el total de su compra es: $" + totalCompra);
-        console.log("Gracias por elegirnos! Hasta luego!");
-        seguirComprando = false
-    }
-}
-
 function restaStock(stock, cantidad) {
     return stock - cantidad;
 }
@@ -97,44 +57,86 @@ const sumaCompra = function (total, subtotal) {
 }
 
 const subTotal = (cantidad, precio) => cantidad * precio;
+
 const aplicarDescuento = (total, descuento) => total - (total * descuento);
+
+function checklist() {
+    for (const producto of productos) {
+        console.log("✅" + producto)
+    }
+}
+function caseCupon() {
+    let cupon = prompt("ingrese cupon de descuento: ");
+    if (cupones.includes(cupon)) {
+        totalAnterior = totalCompra;
+        descuento = 0.1;
+        totalCompra = aplicarDescuento(totalCompra, descuento);
+        console.log(cupon + " es el cupon n°" + (cupones.indexOf(cupon) + 1) + " de nuestra lista de cupones!");
+        console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.");
+    }
+    else {
+        console.log("cupon invalido!!!")
+    }
+}
+function caseFinalizar() {
+    let finalizar = prompt("desea finalizar la compra? (si/no)");
+    if (finalizar == "si") {
+        if (descuento > 0) {
+            console.log("Obtuvo un descuento de: $" + parseInt(totalAnterior - totalCompra));
+        }
+        console.log("el total de su compra es: $" + totalCompra);
+        console.log("Gracias por elegirnos! Hasta luego!");
+        seguirComprando = false
+    }
+}
 
 
 console.log("===================================");
 console.log("=====Bienvenido a CoderSport!======");
 console.log("===================================");
-console.log("--------opcion 1: zapatillas-------");
-console.log("--------opcion 2: remeras----------");
-console.log("--------opcion 3: pelotas----------");
-console.log("--------opcion 4: cupon------------");
-console.log("--------opcion 0: finalizar compra-");
+console.log("--------opcion 1: Botines----------");
+console.log("--------opcion 2: Remeras----------");
+console.log("--------opcion 3: Pelotas----------");
+console.log("--------opcion 4: Shorts-----------");
+console.log("--------opcion 5: Medias-----------");
+console.log("--------opcion 6: c̶o̶r̶d̶o̶n̶e̶s̶---------");
+console.log("--------opcion 7: Cupon------------");
+console.log("--------opcion 8: Checklist--------");
+console.log("--------opcion 0: Finalizar compra-");
 
 
 while (seguirComprando) {
     producto = prompt("Ingrese una opcion del menu: ");
-    // meti un switch dentro del while para que le pregunte al usuario varias veces hasta que decida salir del programa 
     switch (producto) {
         case "1":
-            caseZapatillas();
+            stockZapatillas = procesoCompra(productos[0], precioZapatillas, stockZapatillas);
             break;
         case "2":
-            caseRemeras();
+            stockRemeras = procesoCompra(productos[1], precioRemeras, stockRemeras);
             break;
         case "3":
-            casePelotas();
+            stockPelotas = procesoCompra(productos[2], precioPelotas, stockPelotas);
             break;
-
         case "4":
+            stockShorts = procesoCompra(productos[3], precioShorts, stockShorts);
+            break;
+        case "5":
+            stockMedias = procesoCompra(productos[4], precioMedias, stockMedias);
+            break;
+        case "6":
+            console.log("El producto " + productoEliminado + " no se encuentra disponible, ya que fue eliminado");
+            break;
+        case "7":
             caseCupon();
+            break;
+        case "8":
+            checklist();
             break;
         case "0":
             caseFinalizar();
             break;
-        // Agregue un default tal y como me marcaron en la devolucion de la clase 2, para que el codigo quede como corresponde.
         default:
             console.log("opcion no valida, por favor ingrese una opción del menú >:(");
     }
 
 }
-
-
