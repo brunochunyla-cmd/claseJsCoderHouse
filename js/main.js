@@ -77,6 +77,20 @@ function caseCupon() {
     else {
         console.log("cupon invalido!!!")
     }
+
+    function buscarProducto() {
+        let productoBuscado = prompt("Ingrese el nombre del producto que desea buscar:");
+
+        if (productos.includes(productoBuscado)) {
+            let posicion = productos.indexOf(productoBuscado);
+
+            console.log("El producto " + productoBuscado + " se encuentra disponible.");
+            console.log("Su posición en el array es: " + posicion);
+        } else {
+            console.log("El producto " + productoBuscado + " no se encuentra en el catálogo.");
+        }
+    }
+
 }
 function caseFinalizar() {
     let finalizar = prompt("desea finalizar la compra? (si/no)");
@@ -102,6 +116,7 @@ console.log("--------opcion 5: Medias-----------");
 console.log("--------opcion 6: c̶o̶r̶d̶o̶n̶e̶s̶---------");
 console.log("--------opcion 7: Cupon------------");
 console.log("--------opcion 8: Checklist--------");
+console.log("--------opcion 9: Buscar producto--");
 console.log("--------opcion 0: Finalizar compra-");
 
 
@@ -131,6 +146,9 @@ while (seguirComprando) {
             break;
         case "8":
             checklist();
+            break;
+        case "9":
+            buscarProducto();
             break;
         case "0":
             caseFinalizar();
