@@ -1,50 +1,47 @@
-const productos = ["zapatillas", "remeras", "pelotas", "shorts", "medias"];
-let stockZapatillas = 10;
-const precioZapatillas = 150;
+class Producto {
+    constructor(producto, stock, precio, categoria) {
+        this.producto = producto;
+        this.stock = stock;
+        this.precio = precio;
+        this.categoria = categoria;
+    }
 
-let stockRemeras = 5;
-const precioRemeras = 80;
+    vender(cantidad) {
+        if (!Number.isInteger(cantidad) || cantidad <= 0) {
+            console.log("la cantidad ingreada no es valdia.");
+            return false;
+        }
 
-let stockPelotas = 15;
-const precioPelotas = 50;
+        if (cantidad > this.stock) {
+            console.log("no hay stock suficiente de " + this.producto)
+            return false;
+        }
 
-let stockShorts = 20;
-const precioShorts = 45;
+        this.stock = this.stock - cantidad;
+        return true;
+    }
+}
 
-let stockMedias = 25;
-const precioMedias = 25;
+const zapatilla = new Producto("Zapatillas", 10, 150, "calzado");
+const remeras = new Producto("Remeras", 5, 80, "indumentaria");
+const pelotas = new Producto("Pelotas", 15, 50, "accesorio");
+const shorts = new Producto("Shorts", 20, 45, "indumentaria");
+const medias = new Producto("Medias", 25, 25, "medias");
+const productos = [zapatilla, remeras, pelotas, shorts, medias];
 
 const cupones = ["coder", "pipzas", "caballedo", "pefeto"];
 
 let totalAnterior = 0;
-
 let totalCompra = 0;
-
 let seguirComprando = true;
-
 let descuento = 0;
 
-productos.splice(0, 1, "botines");
-// no sabia como agregar estos metodos para que queden bien dentro del simulador, lo que hice fue agregarlo, avisar que se agreg...
-productos.push("cordones");
-console.log("Nuevo producto agregado: " + productos[productos.length - 1]);
-// ... y luego eliminarlo y avisar que se elemino, para que quede claro que se pueden agregar y eliminar productos del catalogo
-let productoEliminado = productos.pop();
-console.log("Producto eliminado del catálogo: " + productoEliminado);
-/* se agrego la funcion de procesoCompra que recibe el nombre del producto, precio y stock, realiza el mismo proceso que las funciones caseZapatillas, caseRemeras y casePElotas,
-pero ahorrandome muchas lineas de codigo, ya que ahora se llama unicamente a la funcion agregandole los parametros correspondientes y retornando el stock modificado en cada caso */
-function procesoCompra(producto, precio, stock) {
-    let cantidadProductos = parseInt(prompt("ingrese la cantidad de " + producto + " que desea comprar:"));
-    if (cantidadProductos <= stock) {
-        let totalProductos = subTotal(cantidadProductos, precio);
-        console.log("El total a pagar por " + cantidadProductos + " " + producto + " es: $" + totalProductos);
-        stock = restaStock(stock, cantidadProductos);
+function procesoCompra(producto) {
+    let cantidadProductos = parseInt(prompt("ingrese la cantidad de " + producto.producto + " que desea comprar:"));
+    if (producto.vender(cantidadProductos)) {
+        let totalProductos = subTotal(cantidadProductos, producto.precio);
+        console.log("El total a pagar por " + cantidadProductos + " " + producto.producto + " es: $" + totalProductos);
         totalCompra = sumaCompra(totalCompra, totalProductos);
-        return stock;
-    }
-    else {
-        console.log("No hay stock suficiente de " + producto + ". Stock disponible: " + stock);
-        return stock;
 
     }
 }
@@ -61,8 +58,9 @@ const subTotal = (cantidad, precio) => cantidad * precio;
 const aplicarDescuento = (total, descuento) => total - (total * descuento);
 
 function checklist() {
-    for (const producto of productos) {
-        console.log("✅" + producto)
+    console.log("Productos con sus categorias:");
+    for (const p of productos) {
+        console.log("✅" + p.producto + "-" + p.categoria);
     }
 }
 function caseCupon() {
@@ -75,17 +73,16 @@ function caseCupon() {
         console.log("Se aplico un descuento del 10% que vera reflejado en el total de su compra al finalizar.");
     }
     else {
-        console.log("cupon invalido!!!")
+        console.log("cupon invalido!!!");
     }
 }
 function buscarProducto() {
     let productoBuscado = prompt("Ingrese el nombre del producto que desea buscar:");
+    let resultado = productos.find(p => p.producto === productoBuscado);
+    if (resultado) {
 
-    if (productos.includes(productoBuscado)) {
-        let posicion = productos.indexOf(productoBuscado);
+        console.log("El producto " + resultado.producto + " se encuentra disponible.");
 
-        console.log("El producto " + productoBuscado + " se encuentra disponible.");
-        console.log("Su posición en el array es: " + posicion);
     } else {
         console.log("El producto " + productoBuscado + " no se encuentra en el catálogo.");
     }
@@ -104,15 +101,14 @@ function caseFinalizar() {
 console.log("===================================");
 console.log("=====Bienvenido a CoderSport!======");
 console.log("===================================");
-console.log("--------opcion 1: Botines----------");
+console.log("--------opcion 1: Zapatillas-------");
 console.log("--------opcion 2: Remeras----------");
 console.log("--------opcion 3: Pelotas----------");
 console.log("--------opcion 4: Shorts-----------");
 console.log("--------opcion 5: Medias-----------");
-console.log("--------opcion 6: c̶o̶r̶d̶o̶n̶e̶s̶---------");
-console.log("--------opcion 7: Cupon------------");
-console.log("--------opcion 8: Checklist--------");
-console.log("--------opcion 9: Buscar producto--");
+console.log("--------opcion 6: Cupon------------");
+console.log("--------opcion 7: Checklist--------");
+console.log("--------opcion 8: Buscar producto--");
 console.log("--------opcion 0: Finalizar compra-");
 
 let producto;
@@ -120,30 +116,27 @@ while (seguirComprando) {
     producto = prompt("Ingrese una opcion del menu: ");
     switch (producto) {
         case "1":
-            stockZapatillas = procesoCompra(productos[0], precioZapatillas, stockZapatillas);
+            zapatilla.stock = procesoCompra(zapatilla);
             break;
         case "2":
-            stockRemeras = procesoCompra(productos[1], precioRemeras, stockRemeras);
+            remeras.stock = procesoCompra(remeras);
             break;
         case "3":
-            stockPelotas = procesoCompra(productos[2], precioPelotas, stockPelotas);
+            pelotas.stock = procesoCompra(pelotas);
             break;
         case "4":
-            stockShorts = procesoCompra(productos[3], precioShorts, stockShorts);
+            shorts.stock = procesoCompra(shorts);
             break;
         case "5":
-            stockMedias = procesoCompra(productos[4], precioMedias, stockMedias);
+            medias.stock = procesoCompra(medias);
             break;
         case "6":
-            console.log("El producto " + productoEliminado + " no se encuentra disponible, ya que fue eliminado");
-            break;
-        case "7":
             caseCupon();
             break;
-        case "8":
+        case "7":
             checklist();
             break;
-        case "9":
+        case "8":
             buscarProducto();
             break;
         case "0":
